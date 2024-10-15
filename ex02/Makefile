@@ -8,24 +8,31 @@ OBJ = $(SRC:.cpp=.o)
 
 GREEN = \033[0;32m
 RED = \033[0;31m
-NC = \033[0m # No Color
+NC = \033[0m
 
 all: $(NAME)
-	@echo -e "$(GREEN)🚀 Building project...$(NC)"
+	@true
 
 $(NAME): $(OBJ)
+	@echo "$(GREEN)🛠 Building project...$(NC)"
 	@$(CXX) $(CXXFLAGS) $(OBJ) -o $(NAME)
-	@echo -e "$(GREEN)✅ Executable $(NAME) created successfully!$(NC)"
+	@echo "$(GREEN)[$(NAME)] is built and ready to shine!✨$(NC)"
+
+$(OBJ): %.o: %.cpp
+	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	@rm -f $(OBJ)
-	@echo -e "$(RED)🧹 Object files cleaned up!$(NC)"
+	@if ls $(OBJ) 1> /dev/null 2>&1; then \
+		rm -f $(OBJ); \
+		echo "$(RED)🧹 Object files cleaned up!$(NC)"; \
+	fi
 
 fclean: clean
-	@rm -f $(NAME)
-	@echo -e "$(RED)🗑️ Executable $(NAME) removed! Farewell, brave binary!$(NC)"
+	@if [ -f "$(NAME)" ]; then \
+		rm -f $(NAME); \
+		echo "$(RED)🗑️ Executable [$(NAME)] removed! 💔 Farewell, brave binary!$(NC)"; \
+	fi
 
 re: fclean all
-	@echo -e "$(GREEN)🔄 Rebuilt everything from scratch!$(NC)"
 
 .PHONY: all clean fclean re

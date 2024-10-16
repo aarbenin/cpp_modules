@@ -1,5 +1,4 @@
 #include "PhoneBook.hpp"
-
 #include <iomanip>
 #include <iostream>
 #include <limits>
@@ -34,7 +33,7 @@ void PhoneBook::displayList() const
               << "First Name" << "|" << std::setw(10) << "Last Name" << "|"
               << std::setw(10) << "Nickname" << std::endl;
 
-    std::cout << "-------------------------------------------" << std::endl;
+    std::cout << "--------------------------------------------" << std::endl;
 
     for (int i = 0; i < contactCount; ++i)
     {
@@ -80,6 +79,7 @@ void PhoneBook::search() const
                   << std::endl;
         return;
     }
+
     displayList();
     int index;
     std::cout << "Enter the index of the contact to view details (from 1 to "
@@ -95,4 +95,5 @@ void PhoneBook::search() const
     }
 
     displayDetails(index - 1);
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }

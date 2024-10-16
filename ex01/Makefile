@@ -1,23 +1,36 @@
 CXX = c++
-CXFLAGS = -Wall -Wextra -Werror
+CXXFLAGS = -Wall -Wextra -Werror -std=c++11
 
 NAME = phonebook
 SRCS = main.cpp Contact.cpp PhoneBook.cpp
 OBJS = $(SRCS:.cpp=.o)
 
+GREEN = \033[0;32m
+RED = \033[0;31m
+NC = \033[0m
+
 all: $(NAME)
+	@true
 
 $(NAME): $(OBJS)
-	$(CXX) $(CXFLAGS) $(OBJS) -o $(NAME)
+	@echo "$(GREEN)🛠 Building project...$(NC)"
+	@$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+	@echo "$(GREEN)[$(NAME)] is built and ready to shine!✨$(NC)"
 
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+$(OBJS): %.o: %.cpp
+	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	@if ls $(OBJS) 1> /dev/null 2>&1; then \
+		rm -f $(OBJS); \
+		echo "$(RED)🧹 Object files cleaned up!$(NC)"; \
+	fi
 
 fclean: clean
-	rm -f $(NAME)
+	@if [ -f "$(NAME)" ]; then \
+		rm -f $(NAME); \
+		echo "$(RED)🗑️ Executable [$(NAME)] removed! 💔 Farewell, brave binary!$(NC)"; \
+	fi
 
 re: fclean all
 

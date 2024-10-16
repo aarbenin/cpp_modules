@@ -1,8 +1,18 @@
 #include <iostream>
 #include <string>
+#include <cctype>
 
 #include "Contact.hpp"
 #include "PhoneBook.hpp"
+
+bool isNumber(const std::string &str) {
+    for (char c : str) {
+        if (!std::isdigit(c)) {
+            return false;
+        }
+    }
+    return true;
+}
 
 int main()
 {
@@ -28,10 +38,22 @@ int main()
             std::getline(std::cin, lastName);
             std::cout << "Enter nickname: ";
             std::getline(std::cin, nickname);
-            std::cout << "Enter phone number: ";
-            std::getline(std::cin, phoneNumber);
+            while (true) {
+                std::cout << "Enter phone number: ";
+                std::getline(std::cin, phoneNumber);
+                
+                if (isNumber(phoneNumber)) {
+                    break;
+                } else {
+                    std::cout << "Error: Phone number must contain only digits. Please try again." << std::endl;
+                }
+            }
             std::cout << "Enter darkest secret: ";
             std::getline(std::cin, darkestSecret);
+             if (darkestSecret.empty()) {
+                std::cout << "Not confessing, are we? Well, I'll have to do it for you..." << std::endl;
+                darkestSecret = "Secretly likes pineapple on pizza 😱";
+            }
 
             if (firstName.empty() || lastName.empty() || nickname.empty() ||
                 phoneNumber.empty() || darkestSecret.empty())
@@ -45,21 +67,13 @@ int main()
                 Contact newContact(firstName, lastName, nickname, phoneNumber,
                                    darkestSecret);
                 phoneBook.add(newContact);
-                std::cout << "Contact added successfully!" << std::endl;
+                std::cout << "\nContact added successfully!\n" << std::endl;
             }
         }
         else if (command == "SEARCH")
         {
             phoneBook.search();
-            if (std::cin.fail())
-            {
-                std::cin.clear();
-            }
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-            continue;
         }
-
         else if (command == "EXIT")
         {
             std::cout << "Goodbye!" << std::endl;

@@ -11,10 +11,10 @@ public:
     void announce() const;
 
 private:
-    std::string name;
+    std::string m_name;
 };
 
-Zombie *newZombie(std::string name);
-void randomChump(std::string name);
+Zombie* newZombie(std::string name);
+void    randomChump(std::string name);
 
 #endif

@@ -1,4 +1,4 @@
-NAME = braiiiiiiinnnzzzZ
+NAME = moar_brainz
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -MMD
@@ -9,8 +9,7 @@ BUILD_DIR = build
 
 SRCS = $(SRCS_DIR)/main.cpp \
        $(SRCS_DIR)/Zombie.cpp \
-       $(SRCS_DIR)/newZombie.cpp \
-       $(SRCS_DIR)/randomChump.cpp
+       $(SRCS_DIR)/zombieHorde.cpp
 
 OBJS = $(patsubst $(SRCS_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SRCS))
 DEPS = $(OBJS:.o=.d)

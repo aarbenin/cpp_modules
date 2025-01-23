@@ -1,4 +1,4 @@
-NAME = scartrap
+NAME = scavtrap
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -MMD

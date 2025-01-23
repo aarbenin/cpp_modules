@@ -1,6 +1,6 @@
+#include "FragTrap.hpp"
 #include <iostream>
 #include <limits>
-#include "FragTrap.hpp"
 
 int main()
 {
@@ -13,10 +13,10 @@ int main()
     std::cout << "\n=== Testing take damage ===\n";
     frag.takeDamage(30);
     frag.takeDamage(80);
-    frag.takeDamage(10); // Should show already destroyed message
+    frag.takeDamage(10);
 
     std::cout << "\n=== Testing repair ===\n";
-    frag.beRepaired(50); // Should not repair, as health is 0
+    frag.beRepaired(50);
 
     std::cout << "\n=== Testing special ability ===\n";
     frag.highFivesGuys();
@@ -28,8 +28,7 @@ int main()
     revivedFrag.attack("Target2");
 
     std::cout << "\n=== Energy depletion ===\n";
-    for (int i = 0; i < 101; ++i)
-    {
+    for (int i = 0; i < 101; ++i) {
         revivedFrag.attack("Target3");
     }
 

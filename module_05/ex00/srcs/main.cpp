@@ -1,4 +1,5 @@
 #include "Bureaucrat.hpp"
+#include <climits>
 #include <iostream>
 
 int main() {
@@ -22,7 +23,8 @@ int main() {
     }
 
     try {
-        std::cout << "\nTest 2: Creating a bureaucrat with too high grade (0)" << std::endl;
+        std::cout << "\nTest 2: Creating a bureaucrat with too high grade (0)"
+                  << std::endl;
         Bureaucrat alice("Alice", 0);
         std::cout << "This line should not be reached" << std::endl;
     } catch (const std::exception& e) {
@@ -30,7 +32,8 @@ int main() {
     }
 
     try {
-        std::cout << "\nTest 3: Creating a bureaucrat with too low grade (151)" << std::endl;
+        std::cout << "\nTest 3: Creating a bureaucrat with too low grade (151)"
+                  << std::endl;
         Bureaucrat charlie("Charlie", 151);
         std::cout << "This line should not be reached" << std::endl;
     } catch (const std::exception& e) {
@@ -38,7 +41,8 @@ int main() {
     }
 
     try {
-        std::cout << "\nTest 4: Trying to increment from highest grade (1)" << std::endl;
+        std::cout << "\nTest 4: Trying to increment from highest grade (1)"
+                  << std::endl;
         Bureaucrat dave("Dave", 1);
         std::cout << dave << std::endl;
         dave.incrementGrade();
@@ -48,7 +52,8 @@ int main() {
     }
 
     try {
-        std::cout << "\nTest 5: Trying to decrement from lowest grade (150)" << std::endl;
+        std::cout << "\nTest 5: Trying to decrement from lowest grade (150)"
+                  << std::endl;
         Bureaucrat eve("Eve", 150);
         std::cout << eve << std::endl;
         eve.decrementGrade();
@@ -74,7 +79,8 @@ int main() {
     }
 
     try {
-        std::cout << "\nTest 8: Reaching boundary values during operations" << std::endl;
+        std::cout << "\nTest 8: Reaching boundary values during operations"
+                  << std::endl;
 
         Bureaucrat almostTop("AlmostTop", 2);
         std::cout << almostTop << std::endl;
@@ -96,7 +102,8 @@ int main() {
         almostBottom.decrementGrade();
         std::cout << "After first decrement: " << almostBottom << std::endl;
 
-        std::cout << "Trying to decrement past the bottom limit..." << std::endl;
+        std::cout << "Trying to decrement past the bottom limit..."
+                  << std::endl;
         almostBottom.decrementGrade();
         std::cout << "This line should not be reached" << std::endl;
     } catch (const std::exception& e) {

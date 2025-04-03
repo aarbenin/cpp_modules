@@ -1,11 +1,7 @@
 #ifndef SCALARCONVERTER_HPP
 #define SCALARCONVERTER_HPP
 
-#include <cctype>
-#include <cmath>
 #include <iostream>
-#include <limits>
-#include <stdexcept>
 #include <string>
 
 class ScalarConverter {
@@ -15,20 +11,24 @@ private:
     ScalarConverter& operator=(const ScalarConverter& other);
     ~ScalarConverter();
 
-    static bool isChar(const std::string& literal);
-    static bool isInt(const std::string& literal);
-    static bool isFloat(const std::string& literal);
-    static bool isDouble(const std::string& literal);
-    static bool isPseudoLiteral(const std::string& literal);
+    static bool isCharLiteral(const std::string& str);
+    static bool isSingleChar(const std::string& str);
+    static bool isInt(const std::string& str);
+    static bool isFloat(const std::string& str);
+    static bool isDouble(const std::string& str);
+    static bool isPseudoLiteral(const std::string& str);
 
-    static void convertChar(const std::string& literal);
-    static void convertInt(const std::string& literal);
-    static void convertFloat(const std::string& literal);
-    static void convertDouble(const std::string& literal);
-    static void convertPseudoLiteral(const std::string& literal);
+    static void convertCharLiteral(const std::string& str);
+    static void convertSingleChar(const std::string& str);
+    static void convertInt(const std::string& str);
+    static void convertFloat(const std::string& str);
+    static void convertDouble(const std::string& str);
+    static void convertPseudoLiteral(const std::string& str);
+
+    static void printImpossible();
 
 public:
-    static void convert(const std::string& literal);
+    static void convert(const std::string& str);
 };
 
 #endif

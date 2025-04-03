@@ -20,9 +20,9 @@ int main(int argc, char* argv[]) {
     }
 
     std::string input = argv[1];
-    
+
     printTestHeader("Converting: " + input);
     ScalarConverter::convert(input);
-    
+
     return 0;
 }

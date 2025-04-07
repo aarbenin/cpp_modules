@@ -1,4 +1,4 @@
-NAME = convert
+NAME = array
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -MMD
@@ -7,8 +7,7 @@ SRCS_DIR = srcs
 INCLUDES_DIR = includes
 BUILD_DIR = build
 
-SRCS = $(SRCS_DIR)/main.cpp \
-       $(SRCS_DIR)/ScalarConverter.cpp
+SRCS = $(SRCS_DIR)/main.cpp
 
 OBJS = $(patsubst $(SRCS_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SRCS))
 DEPS = $(OBJS:.o=.d)

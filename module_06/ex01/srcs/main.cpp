@@ -5,7 +5,7 @@
 int main() {
     Data myData;
     myData.id   = 42;
-    myData.name = "Hello Serialization";
+    myData.name = "Hello serialization";
 
     uintptr_t raw = Serializer::serialize(&myData);
 
@@ -20,9 +20,9 @@ int main() {
     std::cout << "ptr->name:        " << ptr->name << std::endl;
 
     if (ptr == &myData)
-        std::cout << "Pointers match! Serialization works." << std::endl;
+        std::cout << "Pointers match! Serialization works" << std::endl;
     else
-        std::cout << "Pointers do NOT match! Something's wrong." << std::endl;
+        std::cout << "Pointers do NOT match! Something's wrong" << std::endl;
 
     return 0;
 }

@@ -222,7 +222,6 @@ void ScalarConverter::convertDouble(const std::string& str) {
         double      value = std::stod(str, &pos);
         if (pos != str.size())
             throw std::invalid_argument("Extra characters after double");
-        // char
         std::cout << "char: ";
         if (!std::isnan(value) && !std::isinf(value) && value >= 0.0 &&
             value <= 127.0) {

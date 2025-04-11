@@ -1,6 +1,7 @@
 #ifndef PMERGEME_HPP
 #define PMERGEME_HPP
 
+#include <cstddef>
 #include <deque>
 #include <vector>
 

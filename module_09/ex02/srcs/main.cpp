@@ -1,5 +1,6 @@
 #include "PmergeMe.hpp"
 #include <chrono>
+#include <climits>
 #include <cstdlib>
 #include <deque>
 #include <iostream>

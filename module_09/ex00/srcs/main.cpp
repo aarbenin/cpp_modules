@@ -2,19 +2,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
-#include <sstream>
 #include <string>
-
-static bool tryParseDouble(const std::string& str, double& outVal) {
-    if (str.empty())
-        return false;
-    char*  endPtr = nullptr;
-    double val    = std::strtod(str.c_str(), &endPtr);
-    if (*endPtr != '\0')
-        return false;
-    outVal = val;
-    return true;
-}
 
 static void trim(std::string& s) {
     while (!s.empty() && (s.front() == ' ' || s.front() == '\t')) {
@@ -27,7 +15,8 @@ static void trim(std::string& s) {
 
 int main(int argc, char** argv) {
     if (argc != 2) {
-        std::cerr << "Error: could not open file." << std::endl;
+        std::cerr << "Error: could not open file. (Usage: ./btc <input_file>)"
+                  << std::endl;
         return 1;
     }
 
@@ -39,7 +28,7 @@ int main(int argc, char** argv) {
 
     std::ifstream fin(argv[1]);
     if (!fin.is_open()) {
-        std::cerr << "Error: could not open file." << std::endl;
+        std::cerr << "Error: could not open file " << argv[1] << std::endl;
         return 1;
     }
 
@@ -49,12 +38,14 @@ int main(int argc, char** argv) {
         if (std::getline(fin, firstLine)) {
             std::string temp = firstLine;
             trim(temp);
-            if (temp.find("date") != std::string::npos &&
-                temp.find("value") != std::string::npos) {
-            } else {
+            if (temp.find("date") == std::string::npos ||
+                temp.find("value") == std::string::npos) {
                 fin.clear();
                 fin.seekg(pos);
             }
+        } else {
+            std::cerr << "Error: input file is empty." << std::endl;
+            return 1;
         }
     }
 
@@ -68,7 +59,6 @@ int main(int argc, char** argv) {
             std::cerr << "Error: bad input => " << line << std::endl;
             continue;
         }
-
         std::string date     = line.substr(0, pos);
         std::string valueStr = line.substr(pos + 1);
 
@@ -81,9 +71,14 @@ int main(int argc, char** argv) {
         }
 
         double value = 0.0;
-        if (!tryParseDouble(valueStr, value)) {
-            std::cerr << "Error: bad input => " << line << std::endl;
-            continue;
+        {
+            char*  endPtr = nullptr;
+            double tmp    = std::strtod(valueStr.c_str(), &endPtr);
+            if (*endPtr != '\0') {
+                std::cerr << "Error: bad input => " << line << std::endl;
+                continue;
+            }
+            value = tmp;
         }
 
         if (value < 0.0) {

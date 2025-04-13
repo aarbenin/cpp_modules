@@ -27,8 +27,18 @@ bool BitcoinExchange::loadDatabase(const std::string& filename) {
     }
 
     std::string line;
-    if (!std::getline(fin, line)) {
-        std::cerr << "Error: file is empty or invalid." << std::endl;
+    if (std::getline(fin, line)) {
+        std::string firstLine = line;
+        trim(firstLine);
+        if (firstLine.find("date") == std::string::npos &&
+            firstLine.find("value") == std::string::npos &&
+            firstLine.find("exchange_rate") == std::string::npos) {
+            fin.clear();
+            fin.seekg(0);
+        }
+    } else {
+        std::cerr << "Error: file is empty or invalid (" << filename << ")"
+                  << std::endl;
         return false;
     }
 
@@ -41,17 +51,30 @@ bool BitcoinExchange::loadDatabase(const std::string& filename) {
         std::string       rateStr;
 
         if (!std::getline(ss, date, ',')) {
+            std::cerr << "Warning: no date part in line => " << line
+                      << std::endl;
             continue;
         }
         if (!std::getline(ss, rateStr)) {
+            std::cerr << "Warning: no rate part in line => " << line
+                      << std::endl;
             continue;
         }
+        trim(date);
+        trim(rateStr);
 
         if (!isValidDate(date)) {
+            std::cerr << "Warning: invalid date => " << date << std::endl;
             continue;
         }
 
-        double rate = std::atof(rateStr.c_str());
+        double rate = 0.0;
+        if (!parseDouble(rateStr, rate)) {
+            std::cerr << "Warning: invalid rate => " << rateStr
+                      << " in line: " << line << std::endl;
+            continue;
+        }
+
         _data[date] = rate;
     }
 
@@ -82,8 +105,8 @@ bool BitcoinExchange::parseDate(const std::string& date, int& year, int& month,
         return false;
 
     for (int i = 0; i < 10; i++) {
-        if (i == 4 || i == 7)
-            continue; // это '-'
+        if ((i == 4 || i == 7))
+            continue;
         if (!std::isdigit(date[i]))
             return false;
     }
@@ -94,14 +117,12 @@ bool BitcoinExchange::parseDate(const std::string& date, int& year, int& month,
 
     if (year < 1 || year > 9999)
         return false;
-
     if (month < 1 || month > 12)
         return false;
 
     static const int daysInMonth[12] = {31, 28, 31, 30, 31, 30,
                                         31, 31, 30, 31, 30, 31};
     int              maxDay          = daysInMonth[month - 1];
-
     if (month == 2 && isLeapYear(year))
         maxDay = 29;
 
@@ -119,4 +140,25 @@ bool BitcoinExchange::isLeapYear(int year) {
     if (year % 4 == 0)
         return true;
     return false;
+}
+
+bool BitcoinExchange::parseDouble(const std::string& str, double& outVal) {
+    if (str.empty())
+        return false;
+    char*  endPtr = nullptr;
+    double val    = std::strtod(str.c_str(), &endPtr);
+    if (*endPtr != '\0') {
+        return false;
+    }
+    outVal = val;
+    return true;
+}
+
+void BitcoinExchange::trim(std::string& s) {
+    while (!s.empty() && (s.front() == ' ' || s.front() == '\t')) {
+        s.erase(s.begin());
+    }
+    while (!s.empty() && (s.back() == ' ' || s.back() == '\t')) {
+        s.pop_back();
+    }
 }

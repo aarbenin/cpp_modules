@@ -7,13 +7,16 @@ int main(int argc, char** argv) {
         std::cerr << "Error\n";
         return 1;
     }
+
     std::string input = argv[1];
     RPN         rpn(input);
+
     std::string cleanExpr;
     if (!rpn.validateInput(cleanExpr)) {
         std::cerr << "Error\n";
         return 1;
     }
+
     try {
         long long result = rpn.calculate(cleanExpr);
         std::cout << result << std::endl;
@@ -21,5 +24,6 @@ int main(int argc, char** argv) {
         std::cerr << "Error\n";
         return 1;
     }
+
     return 0;
 }
